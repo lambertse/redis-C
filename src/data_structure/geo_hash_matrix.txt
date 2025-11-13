@@ -1,0 +1,50 @@
+/*
+ Geo hash representation with even length:
+
+  p r x z  p r x z  p r x z
+  n q w y  n q w y  n q w y
+  j m t v  j m t v  j m t v
+  h k s u  h k s u  h k s u
+  5 7 e g  5 7 e g  5 7 e g
+  4 6 d f  4 6 d f  4 6 d f
+  1 3 9 c  1 3 9 c  1 3 9 c
+  0 2 8 b  0 2 8 b  0 2 8 b
+
+  p r x z  p r x z  p r x z
+  n q w y  n q w y  n q w y
+  j m t v  j m t v  j m t v
+  h k s u  h k s u  h k s u
+  5 7 e g  5 7 e g  5 7 e g
+  4 6 d f  4 6 d f  4 6 d f
+  1 3 9 c  1 3 9 c  1 3 9 c
+  0 2 8 b  0 2 8 b  0 2 8 b
+
+  p r x z  p r x z  p r x z
+  n q w y  n q w y  n q w y
+  j m t v  j m t v  j m t v
+  h k s u  h k s u  h k s u
+  5 7 e g  5 7 e g  5 7 e g
+  4 6 d f  4 6 d f  4 6 d f
+  1 3 9 c  1 3 9 c  1 3 9 c
+  0 2 8 b  0 2 8 b  0 2 8 b
+
+======================================
+  Geo hash representation with odd length:
+
+  b c f g u v y z  b c f g u v y z  b c f g u v y z
+  8 9 d e s t w x  8 9 d e s t w x  8 9 d e s t w x
+  2 3 6 7 k m q r  2 3 6 7 k m q r  2 3 6 7 k m q r
+  0 1 4 5 h j n p  0 1 4 5 h j n p  0 1 4 5 h j n p
+
+  b c f g u v y z  b c f g u v y z  b c f g u v y z
+  8 9 d e s t w x  8 9 d e s t w x  8 9 d e s t w x
+  2 3 6 7 k m q r  2 3 6 7 k m q r  2 3 6 7 k m q r
+  0 1 4 5 h j n p  0 1 4 5 h j n p  0 1 4 5 h j n p
+
+  b c f g u v y z  b c f g u v y z  b c f g u v y z
+  8 9 d e s t w x  8 9 d e s t w x  8 9 d e s t w x
+  2 3 6 7 k m q r  2 3 6 7 k m q r  2 3 6 7 k m q r
+  0 1 4 5 h j n p  0 1 4 5 h j n p  0 1 4 5 h j n p
+
+*/
+

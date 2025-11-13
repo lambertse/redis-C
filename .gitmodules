@@ -1,0 +1,3 @@
+[submodule "3rdparty/io-multiplexing"]
+	path = 3rdparty/io-multiplexing
+	url = https://github.com/lambertse/io-multiplexing
