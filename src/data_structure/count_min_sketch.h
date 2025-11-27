@@ -70,7 +70,8 @@ typedef CountMinSketch count_min_sketch;
  * Initialization and Destruction
  * ============================================================================
  */
-int cms_init(CountMinSketch *cms, unsigned int width, unsigned int depth);
+int cms_init_by_dim(CountMinSketch *cms, unsigned int width, unsigned int depth);
+int cms_init_by_prob(CountMinSketch *cms, double error_rate, double confidence);
 int cms_destroy(CountMinSketch *cms);
 
 /* ============================================================================

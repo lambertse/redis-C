@@ -25,7 +25,7 @@ static int32_t __safe_add_2(int32_t a, int32_t b);
 #define __has_builtin(x) 0
 #endif
 
-int cms_init(CountMinSketch *cms, uint32_t width, uint32_t depth) {
+int cms_init_by_dim(CountMinSketch *cms, uint32_t width, uint32_t depth) {
   if (depth < 1 || width < 1) {
     fprintf(stderr, "Unable to initialize the count-min sketch since either "
                     "width or depth is 0!\n");
@@ -33,6 +33,30 @@ int cms_init(CountMinSketch *cms, uint32_t width, uint32_t depth) {
   }
   double confidence = 1 - (1 / pow(2, depth));
   double error_rate = 2 / (double)width;
+  return __setup_cms(cms, width, depth, error_rate, confidence);
+}
+
+int cms_init_by_prob(CountMinSketch *cms, double error_rate, double confidence){
+  // Validate input parameters
+  if (error_rate <= 0 || error_rate >= 1) {
+    fprintf(stderr, "Error rate must be between 0 and 1 (exclusive)\n");
+    return CMS_ERROR;
+  }
+
+  if (confidence <= 0 || confidence >= 1) {
+    fprintf(stderr, "Confidence must be between 0 and 1 (exclusive)\n");
+    return CMS_ERROR;
+  }
+
+  uint32_t width = (uint32_t)ceil(2.0 / error_rate);
+  uint32_t depth = (uint32_t)ceil(log2(1.0 / (1.0 - confidence)));
+
+  // Ensure minimum dimensions
+  if (width < 1)
+    width = 1;
+  if (depth < 1)
+    depth = 1;
+
   return __setup_cms(cms, width, depth, error_rate, confidence);
 }
 

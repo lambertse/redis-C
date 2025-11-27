@@ -32,6 +32,8 @@ set(CLIENT_SOURCE   src/cli.c
 set(SERVER_SOURCE   src/server.c 
                     src/cmd_handler.c
                     src/config.c
+                    src/storage.c
+                    src/data_structure/count_min_sketch.c
 )
 
 # Add all source files to the library

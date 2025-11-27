@@ -1,6 +1,7 @@
 #include "cmd_handler.h"
 #include "3rdparty/io-multiplexing/src/shared/logging.h"
 #include "command/cmd.h"
+#include "command/cmd_cms.h"
 #include "redis-C/config.h"
 #include "redis-C/rc.h"
 #include <netinet/in.h>
@@ -20,7 +21,8 @@ REDIS_RC handle_command(Command *cmd) {
 
   if (cmd->type == CMD_PING) {
     return handle_ping();
-  } else if (1) {
+  } else if (cmd->type == CMD_CMS) {
+    return handle_cms_command(cmd); 
   }
 
   return REDIS_OK;

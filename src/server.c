@@ -6,6 +6,7 @@
 #include "redis-C/rc.h"
 #include "redis-C/server.h"
 #include "serialize.h"
+#include "storage.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -31,8 +32,7 @@ char *process_request(const char *request, size_t req_size, size_t *res_size) {
     memcpy(response + sizeof(int), msg, strlen(msg));
     return response;
   }
-
-  return NULL;
+  return response;
 }
 
 bool setup_config(int port) {
@@ -63,6 +63,8 @@ int main(int argc, char* argv[]) {
     server_destroy(server);
     return 0;
   }
+
+  init_storage();
 
   server_start(server);
   server_destroy(server);

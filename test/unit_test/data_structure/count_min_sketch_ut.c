@@ -9,7 +9,7 @@ TEST(CountMinSketch, Init) {
   CountMinSketch cms;
 
   // Basic initialization
-  int result = cms_init(&cms, 100, 5);
+  int result = cms_init_by_dim(&cms, 100, 5);
   EXPECT_EQ(result, CMS_SUCCESS);
   EXPECT_EQ(cms.width, 100);
   EXPECT_EQ(cms.depth, 5);
@@ -21,7 +21,7 @@ TEST(CountMinSketch, Init) {
 TEST(CountMinSketch, Destroy) {
   CountMinSketch cms;
 
-  cms_init(&cms, 100, 5);
+  cms_init_by_dim(&cms, 100, 5);
   int result = cms_destroy(&cms);
   EXPECT_EQ(result, CMS_SUCCESS);
 
@@ -31,7 +31,7 @@ TEST(CountMinSketch, Destroy) {
 
 TEST(CountMinSketch, Add) {
   CountMinSketch cms;
-  cms_init(&cms, 100, 5);
+  cms_init_by_dim(&cms, 100, 5);
 
   // Basic add (single increment)
   int32_t result = cms_add(&cms, "test_key");
@@ -53,7 +53,7 @@ TEST(CountMinSketch, Add) {
 
 TEST(CountMinSketch, AddInc) {
   CountMinSketch cms;
-  cms_init(&cms, 100, 5);
+  cms_init_by_dim(&cms, 100, 5);
 
   // Add with custom increment
   int32_t result = cms_add_inc(&cms, "key1", 5);
@@ -80,7 +80,7 @@ TEST(CountMinSketch, AddInc) {
 
 TEST(CountMinSketch, Check) {
   CountMinSketch cms;
-  cms_init(&cms, 100, 5);
+  cms_init_by_dim(&cms, 100, 5);
 
   // Check non-existent key
   int32_t count = cms_check(&cms, "nonexistent");
@@ -107,7 +107,7 @@ TEST(CountMinSketch, Check) {
 
 TEST(CountMinSketch, CheckMin) {
   CountMinSketch cms;
-  cms_init(&cms, 100, 5);
+  cms_init_by_dim(&cms, 100, 5);
 
   // Check min is same as check
   cms_add(&cms, "key1");
@@ -122,7 +122,7 @@ TEST(CountMinSketch, CheckMin) {
 
 TEST(CountMinSketch, CheckWithIncrement) {
   CountMinSketch cms;
-  cms_init(&cms, 100, 5);
+  cms_init_by_dim(&cms, 100, 5);
 
   // Add with increment and check
   cms_add_inc(&cms, "key1", 10);
@@ -139,7 +139,7 @@ TEST(CountMinSketch, CheckWithIncrement) {
 
 TEST(CountMinSketch, Remove) {
   CountMinSketch cms;
-  cms_init(&cms, 100, 5);
+  cms_init_by_dim(&cms, 100, 5);
 
   // Add and then remove
   cms_add(&cms, "key1");
@@ -155,7 +155,7 @@ TEST(CountMinSketch, Remove) {
 
 TEST(CountMinSketch, RemoveInc) {
   CountMinSketch cms;
-  cms_init(&cms, 100, 5);
+  cms_init_by_dim(&cms, 100, 5);
 
   // Add with increment and remove with increment
   cms_add_inc(&cms, "key1", 10);
@@ -170,7 +170,7 @@ TEST(CountMinSketch, RemoveInc) {
 
 TEST(CountMinSketch, MultipleKeys) {
   CountMinSketch cms;
-  cms_init(&cms, 100, 5);
+  cms_init_by_dim(&cms, 100, 5);
 
   // Add multiple different keys
   cms_add(&cms, "key1");
@@ -189,7 +189,7 @@ TEST(CountMinSketch, MultipleKeys) {
 
 TEST(CountMinSketch, EdgeCases) {
   CountMinSketch cms;
-  cms_init(&cms, 100, 5);
+  cms_init_by_dim(&cms, 100, 5);
 
   // Empty string key
   cms_add(&cms, "");
@@ -211,7 +211,7 @@ TEST(CountMinSketch, EdgeCases) {
 
 TEST(CountMinSketch, LargeScale) {
   CountMinSketch cms;
-  cms_init(&cms, 1000, 10);
+  cms_init_by_dim(&cms, 1000, 10);
 
   // Add many elements
   for (int i = 0; i < 100; i++) {

@@ -1,13 +1,14 @@
-#ifndef SERIALIZE_H__
-#define SERIALIZE_H__
+#ifndef REDIS_C_SERIALIZE_H__
+#define REDIS_C_SERIALIZE_H__
 
 #include "command/cmd.h"
+#include "command/cmd_cms.h"
 #include <_stdio.h>
 #include <_stdlib.h>
 #include <stdbool.h>
 #include <string.h>
 
-bool __strcmp(const char *l, const char *r, size_t cmp_size) {
+static bool __strcmp(const char *l, const char *r, size_t cmp_size) {
   for (size_t i = 0; i < cmp_size; i++) {
     if (l[i] != r[i])
       return false;
@@ -15,7 +16,7 @@ bool __strcmp(const char *l, const char *r, size_t cmp_size) {
   return true;
 }
 
-Command *serializer(const char *buffer, size_t buf_size) {
+static Command *serializer(const char *buffer, size_t buf_size) {
   char cmd_type[16];
   char cmd_subtype[16];
   size_t idx = 0;
@@ -43,22 +44,47 @@ Command *serializer(const char *buffer, size_t buf_size) {
     cmd_subtype[subtype_idx] = '\0';
   }
 
+  int cur_arg = 0;
+  char *args[5];
+  int cur_word_len = 0;
+  char cur_word[256];
+
+  for (; idx < buf_size; idx++) {
+    if (buffer[idx] == ' ') {
+      if (cur_word_len > 0) {
+        cur_word[cur_word_len] = '\0';
+        args[cur_arg++] = strdup(cur_word);
+        cur_word_len = 0;
+      }
+    } else if (buffer[idx] == '\n') {
+      idx++;
+    } else {
+      cur_word[cur_word_len++] = buffer[idx];
+    }
+  }
+
+  // Handle last word
+  if (cur_word_len > 0) {
+    cur_word[cur_word_len] = '\0';
+    args[cur_arg++] = strdup(cur_word);
+  }
+
   printf("Command: %s\n", cmd_type);
   if (__strcmp(cmd_type, "PING", 4)) {
     return create_command(CMD_PING, -1, NULL);
   } else if (__strcmp(cmd_type, "CMS", 3)) {
     if (__strcmp(cmd_subtype, "INITBYDIM", 9)) {
       printf("Command INITBYDIM\n");
-      return NULL;
+      return create_command(CMD_CMS, (int)CMS_INITBYDIM, args);
     } else if (__strcmp(cmd_subtype, "INITBYPROB", 10)) {
       printf("Command INITBYPROB\n");
-      return NULL;
+      return create_command(CMD_CMS, (int)CMS_INITBYPROB, args);
     } else if (__strcmp(cmd_subtype, "INCRBY", 6)) {
       printf("Command INCRBY\n");
-      return NULL;
+      return create_command(CMD_CMS, (int)CMS_INCRBY, args);
     } else if (__strcmp(cmd_subtype, "QUERY", 5)) {
       printf("Command QUERY\n");
-      return NULL;
+      return create_command(CMD_CMS, (int)CMS_QUERY, args);
     }
     printf("Not match any CMS command\n");
     return NULL;
